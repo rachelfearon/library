@@ -1,0 +1,11 @@
+.card > p {
+    background: rgb(218, 213, 189);
+    line-height: 2em;
+}
+
+.cardcontainer {
+    width: 20em;
+    text-align: center;
+    
+}
+
