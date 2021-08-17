@@ -14,13 +14,7 @@ function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    let readAnswer = false;
-    if (read === "true") {
-        readAnswer = true
-    } else if (read === "false") {
-        readAnswer = false
-    };
-    this.read = readAnswer;
+    this.read = read;
     this.createInfoCard = createInfoCard;
     this.createReadButton = createReadButton;
 };
@@ -49,10 +43,11 @@ function createReadButton(readStatus) {
     }
 };
 
-function createDeleteButton() {
+function createDeleteButton(id) {
     let deleteButton = document.createElement('button');
     deleteButton.textContent = "Delete";
-    deleteButton.classList.add('deleteButton');
+    deleteButton.classList.add(`deleteButton`);
+    deleteButton.setAttribute('id', `deleteButton${id}`);
     return deleteButton;
 }
 
@@ -91,11 +86,17 @@ function toggleReadStatus(id) {
     if (myLibrary[id].read === true) {
         removeReadButton(event.target);
         myLibrary[id].read = false;
-        document.getElementById(id).append(createReadButton(false));
+        let readButton = createReadButton(false);
+        let deleteBtn = document.getElementById(`deleteButton${id}`);
+        let parentDiv = deleteBtn.parentNode;
+        parentDiv.insertBefore(readButton, deleteBtn);
     } else if (myLibrary[id].read === false) {
         removeReadButton(event.target);
         myLibrary[id].read = true;
-        document.getElementById(id).append(createReadButton(true));
+        let readButton = createReadButton(true);
+        let deleteBtn = document.getElementById(`deleteButton${id}`);
+        let parentDiv = deleteBtn.parentNode;
+        parentDiv.insertBefore(readButton, deleteBtn);
     } else {
         console.log("toggleReadStatus error");
     }
@@ -143,8 +144,8 @@ function displayLibrary() {
         cardContainer.append(cardDiv);
         cardDiv.append(element.createInfoCard());
         cardDiv.append(element.createReadButton(element.read));
-        cardDiv.append(createDeleteButton());
-        //cardDiv.append(element.createReadButton(`${this.read}`));
+        cardDiv.append(createDeleteButton(myLibrary.indexOf(element)));
+        console.log(myLibrary.indexOf(element));
         }
     );
 };
