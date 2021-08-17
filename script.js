@@ -6,6 +6,7 @@ const formTitle = document.querySelector('#title');
 const formAuthor = document.querySelector('#author');
 const formPages = document.querySelector('#pages');
 const formRead = document.querySelector('#readbuttons');
+const inputs = document.getElementsByTagName('input');
 
 let myLibrary = [
 ];
@@ -25,7 +26,6 @@ function createInfoCard() {
     card.textContent = `"${this.title}" \r\n`
     card.textContent += `${this.author} \r\n`
     card.textContent += `${this.pages} pages \r\n`
-    card.textContent += `${((this.read === true ? "read" : "not read yet"))}`
     return card;
 };
 
@@ -109,7 +109,7 @@ function assignBookId(card, book) {
 addBookBtn.addEventListener('click', function(event) {
     event.preventDefault;
 
-    if (!formTitle.value || !formAuthor.value || !formPages.value ) {
+    if (!formTitle.value || !formAuthor.value || !formPages.value || (getReadAnswer() === "error")) {
         alert("Please fill out all fields.");
         return;
     } else {
@@ -127,11 +127,13 @@ function getReadAnswer() {
         return false;
     } else {
         console.log("getReadAnswer error")
+        return "error";
     }
 };
 
 addNewBookBtn.addEventListener('click', function(event) {
     formContainer.classList.toggle("hidden");
+    clearForm();
 });
 
 
@@ -157,6 +159,17 @@ function clearLibraryDisplay() {
 function removeReadButton(button) {
     button.parentNode.removeChild(button);
 };
+
+function clearForm() {
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs.type === "radio") { 
+        inputs[i].checked = false
+        } else {
+        inputs[i].value = '';
+        }
+    }
+};
+
 addBookToLibrary("Homemade", "Yvette van Boven", 500, true);
 addBookToLibrary("War for the Oaks", "Emma Bull", 344, true);
 displayLibrary();
