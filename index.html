@@ -20,14 +20,38 @@
         <h2>My Library</h2>
         
         <div class="buttoncontainer">
-            <button id="addnewbtn">Add New Book</button>
+            <button id="addnew">Add New Book</button>
         </div>
-        <div class="formcontainer">
-            
+        <div class="formcontainer hidden">
+            <p> Sample Text</p>
+            <div id="form">
+                <ul>
+                    <li>
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="booktitle">
+                    </li>
+                    <li>
+                        <label for="author">Author:</label>
+                        <input type="text" id="author" name="bookauthor">
+                    </li>
+                    <li>
+                        <label for="pages">Number of Pages:</label>
+                        <input type="text" id="pages" name="bookpages">
+                    </li>
+                    <li>
+                        <p>Have you read it?</p>
+                        <input type="radio" id="read" name="bookread" value="true">
+                        <label for="readyes">Yes</label>
+                        <input type="radio" id="readno" name="bookread" value="false">
+                        <label for="readno">No</label>
+                    </li>
+                </ul>
+                <button id="addbook">Add Book</button>
+            </div>
         </div>
         <div class="cardcontainer">
             <div class="card">
-                <p>Sample Text</p>
+                
             </div>
         </div>
 
