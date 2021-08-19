@@ -85,6 +85,7 @@ function toggleReadStatus(id) {
     if (myLibrary[id].read === true) {
         removeReadButton(event.target);
         myLibrary[id].read = false;
+        localStorage.setItem(`${myLibrary[id].title}`, `${JSON.stringify(myLibrary[id])}`);
         let readButton = createReadButton(false);
         let deleteBtn = document.getElementById(`deleteButton${id}`);
         let parentDiv = deleteBtn.parentNode;
@@ -92,6 +93,7 @@ function toggleReadStatus(id) {
     } else if (myLibrary[id].read === false) {
         removeReadButton(event.target);
         myLibrary[id].read = true;
+        localStorage.setItem(`${myLibrary[id].title}`, `${JSON.stringify(myLibrary[id])}`);
         let readButton = createReadButton(true);
         let deleteBtn = document.getElementById(`deleteButton${id}`);
         let parentDiv = deleteBtn.parentNode;
