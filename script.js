@@ -59,7 +59,6 @@ function displayLibrary() {
         cardDiv.append(element.createInfoCard());
         cardDiv.append(element.createReadButton(element.read));
         cardDiv.append(createDeleteButton(myLibrary.indexOf(element)));
-        console.log(myLibrary.indexOf(element));
         }
     );
 };
@@ -67,6 +66,12 @@ function displayLibrary() {
 function addBookToLibrary(title, author, pages, read) {
     const newBook = new Book(title, author, pages, read);
     myLibrary.push(newBook);
+
+    //if localStorage does not contain an item matching the title, add it
+    if (!localStorage.getItem(`${title}`)) {
+        addBookToStorage(title, newBook);
+    }
+    
 };
 
 function addReadButtonToggle() {
@@ -128,12 +133,20 @@ addBookBtn.addEventListener('click', function(event) {
         alert("Please fill out all fields.");
         return;
     } else {
-        addBookToLibrary(`${formTitle.value}`, `${formAuthor.value}`, `${formPages.value}`, getReadAnswer());
+        addBookToLibrary(`${formTitle.value}`, `${formAuthor.value}`, `${parseInt(formPages.value)}`, getReadAnswer());
     clearLibraryDisplay();
     displayLibrary();
     formContainer.classList.toggle("hidden");
     }
+
 });
+
+function addBookToStorage(title, bookObject) {
+    localStorage.setItem(`${title}`, JSON.stringify(bookObject));
+};
+
+
+
 
 addNewBookBtn.addEventListener('click', function(event) {
     formContainer.classList.toggle("hidden");
@@ -166,18 +179,30 @@ function clearForm() {
     }
 };
 
-addBookToLibrary("Homemade", "Yvette van Boven", 500, true);
-addBookToLibrary("War for the Oaks", "Emma Bull", 344, true);
-addBookToLibrary("Chocolat", "Joanne Harris", 344, true);
-addBookToLibrary("Molecular Gastronomy", "Herve This", 254, false);
-addBookToLibrary("Baking", "Dorie Greenspan", 677, false);
-addBookToLibrary("Creative Illustration", "Andrew Loomis", 591, true);
-addBookToLibrary("Big Magic", "Elizabeth Gilbert", 290, false);
-addBookToLibrary("Tartine Bread", "Chad Robertson", 564, true);
+// addBookToLibrary("Homemade", "Yvette van Boven", 500, true);
+// addBookToLibrary("War for the Oaks", "Emma Bull", 344, true);
+// addBookToLibrary("Chocolat", "Joanne Harris", 344, true);
+// addBookToLibrary("Molecular Gastronomy", "Herve This", 254, false);
+// addBookToLibrary("Baking", "Dorie Greenspan", 677, false);
+// addBookToLibrary("Creative Illustration", "Andrew Loomis", 591, true);
+// addBookToLibrary("Big Magic", "Elizabeth Gilbert", 290, false);
+// addBookToLibrary("Tartine Bread", "Chad Robertson", 564, true);
 
 addReadButtonToggle();
 displayLibrary();
 
+function retrieveStorage() {
+    for (i = 0; i <= localStorage.length-1; i++) {
+        let book = JSON.parse(localStorage.getItem(localStorage.key(i)));
+        book.createInfoCard = createInfoCard;
+        book.createReadButton = createReadButton;
+        myLibrary.push(book);
+        
+    }
+    displayLibrary();
+};
+
+retrieveStorage();
 
 
 
