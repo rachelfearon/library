@@ -66,6 +66,7 @@ button {
     font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-weight: 500;
     font-size: 0.8em;
+    align-items: center;
 }
 
 .readButton {
@@ -76,8 +77,24 @@ button {
     background-color: rgb(211, 106, 106);
 }
 
-#addnew {
+#addnew, #addbook {
     width: 10em;
     font-size: 1.25em;
     margin-bottom: 5px;
+    display: block;
+    align-self: center;
+    justify-self: center;
+}
+
+ul {
+    list-style-type: none;
+
+}
+
+li {
+    padding: 0.2em;
+}
+
+input[type="radio"] {
+    margin: 0.5em;
 }
