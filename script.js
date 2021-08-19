@@ -160,7 +160,9 @@ function deleteCard(id) {
 };
 
 function deleteBook(id) {
+    localStorage.removeItem(`${myLibrary[id].title}`);
     myLibrary.splice(id, 1);
+    
 };
 
 function clearLibraryDisplay() {
