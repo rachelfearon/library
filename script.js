@@ -8,8 +8,7 @@ const formPages = document.querySelector('#pages');
 const formRead = document.querySelector('#readbuttons');
 const inputs = document.getElementsByTagName('input');
 
-let myLibrary = [
-];
+let myLibrary = [];
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -38,7 +37,7 @@ function createReadButton(readStatus) {
     } else {
         let readButton = document.createElement('button');
         readButton.textContent = "Not read yet";
-        readButton.classList.add('readButton');
+        readButton.classList.add('notReadButton');
         return readButton;
     }
 };
@@ -51,6 +50,20 @@ function createDeleteButton(id) {
     return deleteButton;
 }
 
+function displayLibrary() {
+    myLibrary.forEach(element => {
+        let cardDiv = document.createElement('div');
+        cardDiv.classList.add('card');
+        assignBookId(cardDiv, element);
+        cardContainer.append(cardDiv);
+        cardDiv.append(element.createInfoCard());
+        cardDiv.append(element.createReadButton(element.read));
+        cardDiv.append(createDeleteButton(myLibrary.indexOf(element)));
+        console.log(myLibrary.indexOf(element));
+        }
+    );
+};
+
 function addBookToLibrary(title, author, pages, read) {
     const newBook = new Book(title, author, pages, read);
     myLibrary.push(newBook);
@@ -62,25 +75,6 @@ function addReadButtonToggle() {
         toggleReadStatus(`${event.target.parentNode.id}`);
     })
 };
-
-cardContainer.addEventListener('click', event => {
-    let id = event.target.parentNode.id;
-    if (event.target.textContent === "Delete") {
-        deleteCard(id);
-        deleteBook(id);
-        clearLibraryDisplay();
-        displayLibrary();
-    }
-});
-
-function deleteCard(id) {
-    document.getElementById(id).remove();
-};
-
-function deleteBook(id) {
-    myLibrary.splice(id, 1);
-};
-
 
 function toggleReadStatus(id) {
     if (myLibrary[id].read === true) {
@@ -102,9 +96,30 @@ function toggleReadStatus(id) {
     }
 };
 
+function getReadAnswer() {
+    if (document.getElementById('read').checked === true) {
+        return true;
+    } else if (document.getElementById('readno').checked === true) {
+        return false;
+    } else {
+        console.log("getReadAnswer error")
+        return "error";
+    }
+};
+
 function assignBookId(card, book) {
     card.setAttribute('id', `${myLibrary.indexOf(book)}`);
 };
+
+cardContainer.addEventListener('click', event => {
+    let id = event.target.parentNode.id;
+    if (event.target.textContent === "Delete") {
+        deleteCard(id);
+        deleteBook(id);
+        clearLibraryDisplay();
+        displayLibrary();
+    }
+});
 
 addBookBtn.addEventListener('click', function(event) {
     event.preventDefault;
@@ -120,36 +135,17 @@ addBookBtn.addEventListener('click', function(event) {
     }
 });
 
-function getReadAnswer() {
-    if (document.getElementById('read').checked === true) {
-        return true;
-    } else if (document.getElementById('readno').checked === true) {
-        return false;
-    } else {
-        console.log("getReadAnswer error")
-        return "error";
-    }
-};
-
 addNewBookBtn.addEventListener('click', function(event) {
     formContainer.classList.toggle("hidden");
     clearForm();
 });
 
+function deleteCard(id) {
+    document.getElementById(id).remove();
+};
 
-
-function displayLibrary() {
-    myLibrary.forEach(element => {
-        let cardDiv = document.createElement('div');
-        cardDiv.classList.add('card');
-        assignBookId(cardDiv, element);
-        cardContainer.append(cardDiv);
-        cardDiv.append(element.createInfoCard());
-        cardDiv.append(element.createReadButton(element.read));
-        cardDiv.append(createDeleteButton(myLibrary.indexOf(element)));
-        console.log(myLibrary.indexOf(element));
-        }
-    );
+function deleteBook(id) {
+    myLibrary.splice(id, 1);
 };
 
 function clearLibraryDisplay() {
@@ -172,8 +168,16 @@ function clearForm() {
 
 addBookToLibrary("Homemade", "Yvette van Boven", 500, true);
 addBookToLibrary("War for the Oaks", "Emma Bull", 344, true);
-displayLibrary();
+addBookToLibrary("Chocolat", "Joanne Harris", 344, true);
+addBookToLibrary("Molecular Gastronomy", "Herve This", 254, false);
+addBookToLibrary("Baking", "Dorie Greenspan", 677, false);
+addBookToLibrary("Creative Illustration", "Andrew Loomis", 591, true);
+addBookToLibrary("Big Magic", "Elizabeth Gilbert", 290, false);
+addBookToLibrary("Tartine Bread", "Chad Robertson", 564, true);
+
 addReadButtonToggle();
+displayLibrary();
+
 
 
 
