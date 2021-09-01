@@ -41,7 +41,7 @@ body {
     min-height: 200px;
     text-align: center;
     border: 1px solid black;
-    background: rgb(70, 63, 51);
+    background: rgb(163, 146, 117);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: auto;

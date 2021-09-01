@@ -76,12 +76,9 @@ function checkExistingMatch(title, author) {
 function addBookToLibrary(title, author, pages, read) {
     const newBook = new Book(title, author, pages, read);
     myLibrary.push(newBook);
-
-    //if localStorage does not contain an item matching the title, add it
     if (!localStorage.getItem(`${title}`)) {
         addBookToStorage(title, newBook);
     }
-    
 };
 
 function addReadButtonToggle() {
