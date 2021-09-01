@@ -10,37 +10,72 @@ const inputs = document.getElementsByTagName('input');
 
 let myLibrary = [];
 
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-    this.createInfoCard = createInfoCard;
-    this.createReadButton = createReadButton;
-};
+// function Book(title, author, pages, read) {
+    
+//     this.createInfoCard = createInfoCard;
+//     this.createReadButton = createReadButton;
+// };
 
-function createInfoCard() {
-    let card = document.createElement('p');
-    card.setAttribute('style', 'white-space: pre;');
-    card.textContent = `"${this.title}" \r\n`
-    card.textContent += `${this.author} \r\n`
-    card.textContent += `${this.pages} pages \r\n`
-    return card;
-};
+class Book {
 
-function createReadButton(readStatus) {
-    if (readStatus === true) {
-        let readButton = document.createElement('button');
-        readButton.textContent = "Read";
-        readButton.classList.add('readButton');
-        return readButton;
-    } else {
-        let readButton = document.createElement('button');
-        readButton.textContent = "Not read yet";
-        readButton.classList.add('notReadButton');
-        return readButton;
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
     }
-};
+
+    createInfoCard() {
+        let card = document.createElement('p');
+        card.setAttribute('style', 'white-space: pre;');
+        card.textContent = `"${this.title}" \r\n`
+        card.textContent += `${this.author} \r\n`
+        card.textContent += `${this.pages} pages \r\n`
+        return card;
+    };
+
+    createReadButton(readStatus) {
+        if (readStatus === true) {
+            let readButton = document.createElement('button');
+            readButton.textContent = "Read";
+            readButton.classList.add('readButton');
+            return readButton;
+        } else {
+            let readButton = document.createElement('button');
+            readButton.textContent = "Not read yet";
+            readButton.classList.add('notReadButton');
+            return readButton;
+        }
+    };
+
+    saySomething() {
+        console.log("I said something");
+    }
+}
+
+
+// function createInfoCard() {
+//     let card = document.createElement('p');
+//     card.setAttribute('style', 'white-space: pre;');
+//     card.textContent = `"${this.title}" \r\n`
+//     card.textContent += `${this.author} \r\n`
+//     card.textContent += `${this.pages} pages \r\n`
+//     return card;
+// };
+
+// function createReadButton(readStatus) {
+//     if (readStatus === true) {
+//         let readButton = document.createElement('button');
+//         readButton.textContent = "Read";
+//         readButton.classList.add('readButton');
+//         return readButton;
+//     } else {
+//         let readButton = document.createElement('button');
+//         readButton.textContent = "Not read yet";
+//         readButton.classList.add('notReadButton');
+//         return readButton;
+//     }
+// };
 
 function createDeleteButton(id) {
     let deleteButton = document.createElement('button');
@@ -93,7 +128,7 @@ function toggleReadStatus(id) {
         removeReadButton(event.target);
         myLibrary[id].read = false;
         localStorage.setItem(`${myLibrary[id].title}`, `${JSON.stringify(myLibrary[id])}`);
-        let readButton = createReadButton(false);
+        let readButton = myLibrary[id].createReadButton(false);
         let deleteBtn = document.getElementById(`deleteButton${id}`);
         let parentDiv = deleteBtn.parentNode;
         parentDiv.insertBefore(readButton, deleteBtn);
@@ -101,7 +136,7 @@ function toggleReadStatus(id) {
         removeReadButton(event.target);
         myLibrary[id].read = true;
         localStorage.setItem(`${myLibrary[id].title}`, `${JSON.stringify(myLibrary[id])}`);
-        let readButton = createReadButton(true);
+        let readButton = myLibrary[id].createReadButton(true);
         let deleteBtn = document.getElementById(`deleteButton${id}`);
         let parentDiv = deleteBtn.parentNode;
         parentDiv.insertBefore(readButton, deleteBtn);
@@ -154,7 +189,7 @@ addBookBtn.addEventListener('click', function(event) {
     }
 });
 
-
+let book = {};
 
 function addBookToStorage(title, bookObject) {
     localStorage.setItem(`${title}`, JSON.stringify(bookObject));
@@ -199,8 +234,14 @@ displayLibrary();
 function retrieveStorage() {
     for (i = 0; i <= localStorage.length-1; i++) {
         let book = JSON.parse(localStorage.getItem(localStorage.key(i)));
-        book.createInfoCard = createInfoCard;
-        book.createReadButton = createReadButton;
+        console.log(book.title);
+        book = new Book(book.title, book.author, book.pages, book.read);
+        book.createInfoCard();
+
+        // console.log(book[0]);
+        
+        // book.addBookToLibrary() = createInfoCard;
+        // book.createReadButton = createReadButton;
         myLibrary.push(book);
         
     }
